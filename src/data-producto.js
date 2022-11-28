@@ -1,0 +1,7 @@
+const listaProductos = [
+    
+];
+
+export {
+    listaProductos,
+}

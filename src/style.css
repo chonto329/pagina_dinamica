@@ -1,0 +1,42 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffff;
+    font-size: 1.2em;
+}
+.ancho{
+    width: 70%;
+    margin: auto;
+    height: auto;
+}
+.size{
+    font-size: 1.5em;
+}
+.dark{
+    background: rgb(39, 39, 39);
+}
+.dark h2{
+    text-align: center;
+    color: #ffff;
+}
+.tamaño{
+    width: inherit;
+    height: 180px;
+    max-width: 100%;
+}
+.color{
+    
+    color: #ffff;
+    text-align: center;
+    
+    font-size: 1.4em;
+}
+
+@media only screen and (min-width:768px){
+    
+    .color{
+        position: relative;
+        left: 38%;
+    }
+}
