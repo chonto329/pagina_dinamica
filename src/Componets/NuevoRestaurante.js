@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { listaProductos } from '../data-producto'
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
+import "../crud";
+import { CrearRestaurante } from '../crud';
 
 
 
 export const NuevoRestaurante = () => {
 
   const [formulario, setValoresFormulario] = useState({});
-  let { id = '', nombre = '', descripcion = '', direccion = '', url = '' } = formulario;
-  id++;
+  let { nombre = '', descripcion = '', direccion = '', url = '' } = formulario;
+
   // permite asignar los valores del formulario a la variable de estado  formValues
   const handleOnChange = (e) => {
     setValoresFormulario({ ...formulario, [e.target.name]: e.target.value });
@@ -16,24 +18,32 @@ export const NuevoRestaurante = () => {
   }
 
   // pinta los valores del formulario cuando presionan el boton
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault(); // evita que se recargue el formulario
-    listaProductos.push(formulario);
-    console.log(formulario);
-    setValoresFormulario(nombre = "",descripcion = "",direccion = "",url = "");
+    /*listaProductos.push(formulario);
+    console.log(formulario);*/
+
+    try {
+      swal.fire({allowOutsideClick: false, text: "Guardando..."});
+      swal.showLoading();
+      await CrearRestaurante(formulario);
+      swal.close();
+      console.log("Restaurante Creado");
+
+    } catch (error) {
+      console.log(error);
+      swal.close();
+    }
+    setValoresFormulario(nombre = "", descripcion = "", direccion = "", url = "");
   }
 
-  const mensaje = () => {
-    swal("Datos guardados correctamente","","success");
-  }
   return (
 
     <div className="container-fluid mt-3 ancho">
 
-    
 
-      <form  onSubmit={(e) => handleOnSubmit(e)} autoComplete="off">
-        <input required type="hidden" name="id" value={id} />
+
+      <form onSubmit={(e) => handleOnSubmit(e)} autoComplete="off">
         <div className="mb-3">
           <label className="form-label">Nombre Restaurante</label>
           <input required type="text" name="nombre" value={nombre}
@@ -55,7 +65,7 @@ export const NuevoRestaurante = () => {
             value={url} onChange={(e) => { handleOnChange(e) }} />
         </div>
         <div className="mb-3">
-          <button type="submit" onClick={() => mensaje()} className="btn btn-primary form-control">Guardar</button>
+          <button type="submit" className="btn btn-primary form-control">Guardar</button>
         </div>
       </form>
     </div>

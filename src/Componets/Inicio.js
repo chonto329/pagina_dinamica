@@ -1,9 +1,32 @@
-import React, { useState } from 'react';
-import { listaProductos } from '../data-producto';
+import React, { useState, useEffect } from 'react';
+import { ListarRestaurantes } from '../crud';
+import swal from 'sweetalert2';
 
-export const Inicio = () => {
-    const [restaurante, setRestaurante] = useState(listaProductos);
+export const Inicio =  () => {
+    const [restaurante, setRestaurante] = useState([]);
     
+
+    useEffect( () =>{
+        lisRestaurante();
+    },[]);
+
+    const lisRestaurante = async () =>{
+
+        try {
+            swal.fire({allowOutsideClick: false, text: "Cargando..."});
+            swal.showLoading();
+            const lista = await ListarRestaurantes();
+            setRestaurante(lista);
+            swal.close();
+            
+      
+          } catch (error) {
+            console.log(error);
+            swal.close();
+          }
+    }
+
+
 
     return (
         <div className="container-fluid mt-3 mb-3 ancho">
@@ -13,8 +36,8 @@ export const Inicio = () => {
                 {
                     restaurante.map(r => {
                         return (
-                            <div className="col" >
-                                <div className="card" key={r.id}>
+                            <div className="col" key={r.id}>
+                                <div className="card card-t">
                                     <img src={r.url} className="card-img-top img-fluid col-md-8 col-sm-12 tamaño" alt="..." />
                                     <div className="card-body">
                                         <h5 className="card-title text-center">{r.nombre}</h5>
